@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light">
+<title>Проверяем грамотность</title>
+<style>
+html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
+:root{color-scheme:light;--bg:#EFE4CC;--card:#F8F1E0;--ink:#141414;--acc:#E8590C;--mute:#564E3E}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font:20px/1.6 "Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif}
+.wrap{max-width:840px;margin:0 auto;padding:24px 18px 80px}
+h1{font-size:2.3rem;line-height:1.15;margin:12px 0 10px;font-weight:800}
+.lead{margin:0 0 20px;color:var(--mute)}
+.lead b{color:var(--ink)}
+.prog{position:sticky;top:0;z-index:5;background:var(--bg);padding:10px 0 12px;display:flex;align-items:center;gap:14px;font-weight:700;border-bottom:2px solid var(--ink);margin-bottom:22px}
+.prog i{flex:1;height:12px;border:2px solid var(--ink);border-radius:8px;overflow:hidden;background:var(--card)}
+.prog b{display:block;height:100%;width:0;background:var(--acc);transition:width .25s}
+.q{background:var(--card);border:2px solid var(--ink);border-radius:14px;padding:22px 22px 24px;margin-bottom:20px}
+.q h2{margin:0 0 12px;font-size:1.05rem;display:flex;align-items:center;gap:12px}
+.num{background:var(--ink);color:var(--bg);border-radius:50%;width:2.3rem;height:2.3rem;display:inline-flex;align-items:center;justify-content:center;font-weight:800}
+.qt{margin:0 0 10px;font-weight:600;font-size:1.1rem}
+.opt{margin:6px 0;padding-left:4px}
+label.f{display:flex;align-items:center;gap:10px;margin-top:10px;font-weight:700}
+input[type=text]{font:inherit;font-size:1.15rem;width:100%;max-width:560px;padding:12px 14px;border:2px solid var(--ink);border-radius:10px;background:#fff;color:var(--ink)}
+input[type=text]:focus{outline:none;border-color:var(--acc);box-shadow:0 0 0 4px rgba(232,89,12,.25)}
+.hint{margin:8px 0 0;font-size:.85rem;color:var(--mute)}
+button{font:inherit;font-weight:800;font-size:1.15rem;padding:16px 30px;border:2px solid var(--ink);border-radius:12px;background:var(--ink);color:var(--bg);cursor:pointer}
+button:hover,button:focus-visible{background:var(--acc);border-color:var(--acc);color:#fff;outline:none}
+#go{display:block;margin:28px auto 0;width:100%;max-width:420px}
+.score{background:var(--ink);color:var(--bg);border-radius:16px;padding:28px;text-align:center;margin-bottom:22px}
+.score .pc{font-size:4.5rem;font-weight:900;line-height:1;color:var(--acc)}
+.score p{margin:8px 0 0;font-size:1.15rem}
+h2.sec{font-size:1.5rem;margin:30px 0 12px}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{width:2.7rem;height:2.7rem;border-radius:10px;display:flex;align-items:center;justify-content:center;font-weight:800;text-decoration:none;border:2px solid var(--ink)}
+.chip.ok{background:var(--ink);color:var(--bg)}
+.chip.no{background:var(--acc);color:#fff;border-color:var(--acc)}
+.leg{font-size:.85rem;color:var(--mute);margin-top:8px}
+.bad{background:var(--card);border:2px solid var(--ink);border-left:10px solid var(--acc);border-radius:14px;padding:20px 22px;margin-bottom:18px}
+.bad h3{margin:0 0 10px;font-size:1.2rem}
+.bad p{margin:8px 0;overflow-wrap:anywhere;word-break:break-word}
+.bad .me{color:var(--acc);font-weight:800}
+.cm{background:#fff;border-radius:10px;padding:12px 14px;border:1px solid #c9bb9b}
+.tp{font-weight:700}
+.tp span{background:var(--acc);color:#fff;border-radius:8px;padding:2px 10px;display:inline-block;margin-top:4px}
+ul.topics{padding-left:22px}
+ul.topics li{margin:10px 0}
+.again{margin-top:26px}
+.wrap{padding-left:max(18px,env(safe-area-inset-left));padding-right:max(18px,env(safe-area-inset-right));padding-bottom:max(80px,env(safe-area-inset-bottom))}
+.qt,.opt,.lead{overflow-wrap:anywhere}
+input[type=text],button{-webkit-appearance:none;appearance:none;touch-action:manipulation}
+button{min-height:52px;-webkit-tap-highlight-color:transparent}
+.chip{min-width:2.7rem;min-height:2.7rem}
+.note{margin:14px auto 0;max-width:420px;padding:12px 14px;border:2px solid var(--acc);border-radius:10px;background:#fff;font-weight:600;text-align:center}
+@media(max-width:520px){body{font-size:18px}h1{font-size:1.7rem}.wrap{padding-top:14px}.q{padding:16px 14px 18px;border-radius:12px}.bad{padding:16px 14px;border-left-width:8px}.score{padding:22px 14px}.score .pc{font-size:3.6rem}label.f{gap:8px}input[type=text]{font-size:18px;padding:12px}.prog{gap:10px;padding-top:max(10px,env(safe-area-inset-top))}#go,.again{width:100%;max-width:none}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<h1>Проверяем грамотность</h1>
+<p class="lead">20 заданий по русскому языку. Ответы можно вводить в любом виде: <b>1,2</b> · <b>1 2</b> · <b>12</b>. Засчитывается только полностью верная комбинация.</p>
+<div id="quiz">
+<div class="prog"><span id="pt">0 из 20</span><i><b id="pb"></b></i></div>
+<div id="qs"></div>
+<button id="go" type="button">Проверить ответы</button>
+</div>
+<div id="res" hidden></div>
+</div>
+<script>
+var W='палисадник,абонемент,территория,канонада,бюллетень'.replace(/,/g,'');
+var Q=[
+{k:'n',t:'В каком ряду во всех словах пропущена безударная гласная, проверяемая ударением?',o:['1) ёлочные укр..шения, ск..кать на лошади, высокое загр..ждение','2) погл..щение влаги, бл..стательный успех, пос..деть от горя','3) зап..вать лекарство, прим..рять спорщиков, разм..гчить','4) прик..сновение, несг..раемый, м..тодика'],a:'3',d:'3',
+e:'Верный ряд — 3: запивать (пить), примерять (мера), размягчить (мягкий). В других рядах есть слова с чередующимися гласными в корне: скакать (ряд 1), блистательный (ряд 2), прикосновение и несгораемый (ряд 4). Слово «методика» проверяется словом «метод», но остальные слова ряда 4 не подходят.',
+p:'Безударные гласные в корне: проверяемые, непроверяемые и чередующиеся'},
+{k:'n',t:'Укажите варианты ответов, в которых во всех словах одного ряда пропущена одна и та же буква. Запишите номера ответов.',o:['1) выт..реть (посуду), выб..рите (корень), бл..стящее (выступление)','2) обж..гаться, расст..лающийся (туман), подн..маться','3) соб..рательство, уп..реться, зам..рать (от удивления)','4) ст..реть (пыль с мебели), подн..мая (тяжести), вым..ршие (животные)'],a:'12',d:'1, 2',
+e:'Верно: 1 и 2. В ряду 1 везде Е (вытереть, выберите, блестящее), в ряду 2 везде И — перед суффиксом -а- пишется И (обжигаться, расстилающийся, подниматься). В ряду 3: собирательство — И, упереться — Е, замирать — И; в ряду 4: стереть — Е, поднимая — И, вымершие — Е.',
+p:'Чередующиеся гласные в корне: бир/бер, тир/тер, мир/мер, жиг/жег, стил/стел, блист/блест'},
+{k:'t',t:'Вставьте пропущенные буквы в словарных словах. Запишите слова целиком, через запятую или пробел.',o:['п..л..садник, аб..н..мент, т..рр..тория, к..н..нада, б..лл..тень'],a:[W,'аиоееиаоюе'],d:'палисадник, абонемент, территория, канонада, бюллетень',
+e:'Эти слова нужно запомнить: палисадник, абонемент, территория, канонада, бюллетень (обратите внимание на двойные Р и Л и на букву Ю).',
+p:'Словарные слова: непроверяемые гласные и двойные согласные'},
+{k:'l',t:'Укажите ряд, в котором на месте пропусков во всех словах пишется проверяемая согласная в корне.',o:['а) доро…ка, бли…кий, жу…кий','б) кру…ка, дру…, фу…бол','в) сколь…кий, во…зал, сла…кий'],a:'а',d:'а',
+e:'Верно: а — дорожка (дорога), близкий (ближе), жуткий (жуть). В ряду б «футбол» — заимствованное слово, согласную проверить нельзя; в ряду в «вокзал» — слово с непроверяемой согласной.',
+p:'Правописание согласных в корне: проверяемые и непроверяемые'},
+{k:'t',t:'Вставьте пропущенные слова в правиле через запятую.',o:['В корне слова после _________________ под _________________ пишется буква Ё, если к слову подобрать ______________________ слово с буквой ___.'],a:['шипящихударениемоднокоренноее'],d:'шипящих, ударением, однокоренное, е',
+e:'Полностью правило: в корне слова после шипящих под ударением пишется буква Ё, если к слову можно подобрать однокоренное слово с буквой Е (чёрный — чернеть, шёпот — шептать).',
+p:'Правописание О и Ё после шипящих в корне'},
+{k:'n',t:'В каком слове на месте пропуска пишется Ы?',o:['1) ц..нк','2) куц..й хвост','3) черепаший панц..рь','4) милиц..я'],a:'2',d:'2',
+e:'Верно: 2 — куцый. Буква Ы после Ц пишется не только в окончаниях, но и в суффиксе прилагательных -ын- (сестрицын). «Цинк» и «панцирь» пишутся с И (словарные слова), «милиция» — суффикс -ция.',
+p:'Буквы Ы и И после Ц'},
+{k:'t',t:'Замените существительное с предлогом на прилагательное с приставками на з (с): «движение без шума».',o:[],a:['бесшумный'],d:'бесшумный',
+e:'Бесшумный: приставка без- перед глухой согласной (ш) пишется как бес-.',
+p:'Правописание приставок на З и С'},
+{k:'l',t:'В каком ряду во всех словах нужно написать букву «е»?',o:['а) пр...школьный, пр...клеить','б) пр...милый, пр...зидент','в) пр...ступить к заданию, пр...емник короля'],a:'б',d:'б',
+e:'Верно: б — премилый (пре- = «очень»), президент (заимствованное слово). В ряду а нужна И (пришкольный, приклеить), в ряду в — приступить (И) и преемник (Е).',
+p:'Приставки ПРЕ- и ПРИ-'},
+{k:'n',t:'Выберите правильное объяснение написания слова «сверх…яркий».',o:['1) На месте пропуска пишется разделительный ъ, так как приставка оканчивается на согласную, а корень начинается с йотированной гласной.','2) На месте пропуска пишется разделительный ь, так как орфограмма находится в корне.','3) На месте пропуска в сложносокращённом слове ничего не пишется.'],a:'1',d:'1',
+e:'Верно: 1. Разделительный Ъ пишется после приставки на согласную перед буквами Е, Ё, Ю, Я: сверхъяркий.',
+p:'Разделительные Ъ и Ь'},
+{k:'n',t:'Укажите слово, в котором на месте пропуска пишется И.',o:['1) без..мянный','2) об..скать','3) без..скусный','4) пед..нститут'],a:'4',d:'4',
+e:'Верно: 4. После приставок на согласную И меняется на Ы (безымянный, обыскать, безыскусный), но в сложносокращённых словах И сохраняется: пединститут.',
+p:'Буквы И и Ы после приставок'},
+{k:'n',t:'В каком глаголе на месте пропуска пишется буква Е?',o:['1) заворач..вать','2) огранич..вать','3) отлаж..вать','4) потч..вать'],a:'4',d:'4',
+e:'Верно: 4. Потчевать — суффикс -ева- (потчую). В остальных глаголах суффикс -ива-: заворачивать, ограничивать, отлаживать.',
+p:'Гласные в суффиксах глаголов: -ыва-/-ива-, -ова-/-ева-'},
+{k:'n',t:'Укажите цифры, на месте которых пишется суффикс -ск-.',o:['(1) Сибир…ий, (2) январ…ий, (3) ткац…ий, (4) кубан…ие, (5) рыбац…ий, (6) немец…ий, (7) город…ой, (8) одес…ий, (9) мор…ой.'],a:'124789',d:'1, 2, 4, 7, 8, 9',
+e:'Верно: 1, 2, 4, 7, 8, 9. В прилагательных от существительных на -ч, -ц, -к (ткач, рыбак, немец) пишется суффикс -к- с чередованием: ткацкий, рыбацкий, немецкий. В остальных словах — суффикс -ск-.',
+p:'Суффиксы -К- и -СК- в прилагательных'},
+{k:'n',t:'В каких рядах во всех словах пишется А (Я)?',o:['1) верт..щийся от нетерпения, терп..щий бедствие, ненавид..щим взглядом','2) дыш..щие силой, кле..щие игрушки, вяж..щий вкус','3) стро..щиеся дома, бор..щийся спортсмен, ду..щий ветер','4) уме..щий мыслить, зре..щий плод, спе..щие яблоки'],a:'1',d:'1',
+e:'Верно: 1. У причастий от глаголов I спряжения пишется -ущ-/-ющ-, от глаголов II спряжения — -ащ-/-ящ-.',
+p:'Гласные в суффиксах причастий (-ущ-/-ющ-, -ащ-/-ящ-)'},
+{k:'n',t:'Найдите верное объяснение написания слова «досрочно».',o:['1) Наречие с приставкой до- имеет на конце букву о.','2) Слово является исключением, так как на конце должна быть буква а.','3) Это краткое прилагательное.','4) Наречие образовано от прилагательного с приставкой, поэтому на конце пишется о.'],a:'4',d:'4',
+e:'Верно: 4. Наречие «досрочно» образовано от прилагательного «досрочный», где приставка уже есть, поэтому на конце пишется О. Буква А пишется, когда приставки из-, до-, с- присоединяются к основе наречия (издалека, досуха, слева).',
+p:'Буквы О и А на конце наречий'},
+{k:'t',t:'Вставьте пропущенные буквы в безударные окончания существительных (по порядку, шесть букв).',o:['по алле…, по отмел…, в здани…, из соломк…, в ине…, по лестниц…'],a:['еиииее'],d:'е, и, и, и, е, е',
+e:'Верно: по аллее (1 скл., -е), по отмели (3 скл., -и), в здании (сущ. на -ие в предл. падеже, -и), из соломки (1 скл., Р. п., -и), в инее (2 скл., предл. п., -е), по лестнице (1 скл., -е).',
+p:'Безударные падежные окончания существительных'},
+{k:'n',t:'Укажите строчки, где во всех словах на месте пропуска пишется буква И.',o:['1) он дыш.т, увид.т, гоня.тся, завис.т','2) он распил.т, слыш.т, скач.т, гре.т','3) он угон.тся, вылет.т, объяв.т, провер.т','4) он услыш.т, обид.т, поклон.тся, высп.тся.'],a:'34',d:'3, 4',
+e:'Верно: 3 и 4. Окончание -ит (И) — у глаголов II спряжения. В ряду 1 «гонятся» — глагол-исключение, окончание -ят; в ряду 2 «скачет» и «греет» — глаголы I спряжения, окончание -ет.',
+p:'Личные окончания глаголов: I и II спряжение'},
+{k:'l',t:'В каком ряду все слова пишутся слитно?',o:['а) (пол) листа, (хлебо) завод, (северо)запад;','б) (плащ) палатка, (вечно) зелёный, (еле) еле;','в) (крепко) накрепко, (штаб) квартира, (тёмно) зелёный;','г) (железо) бетонный, (скоро) спелый, (кино) студия.'],a:'г',d:'г',
+e:'Верно: г — железобетонный, скороспелый, киностудия. В других рядах: пол листа — раздельно; северо-запад, плащ-палатка, еле-еле, крепко-накрепко, штаб-квартира, тёмно-зелёный — через дефис.',
+p:'Слитное и дефисное написание сложных слов'},
+{k:'m',t:'Слитное, дефисное или раздельное написание? Раскройте скобки.',o:['а) поступить (по)товарищески','б) (в)течение целого часа','в) я пришёл, (что)бы помочь'],a:['по-товарищески','в течение','чтобы'],d:'а) по-товарищески, б) в течение, в) чтобы',
+e:'По-товарищески — наречие с приставкой по- и суффиксом -ски пишется через дефис. В течение — производный предлог, пишется раздельно. Чтобы — союз, пишется слитно.',
+p:'Слитное, дефисное и раздельное написание: наречия, предлоги, союзы'},
+{k:'n',t:'Укажите все варианты ответов, в которых НЕ с выделенным словом пишется РАЗДЕЛЬНО.',o:['1. (НЕ)ДОЕЗЖАЯ до дома, всадник остановился у высокого забора.','2. (НЕ)СЧАСТЬЯ преследовали его уже больше года.','3. (НЕ)ТРОНУТЫЕ морозом цветы привлекли моё внимание.','4. Утлый экипаж долго полз по (НЕ)МОЩЕНОЙ улице.','5. Лектор (НЕ)ГОТОВ ответить на ваш вопрос.'],a:'135',d:'1, 3, 5',
+e:'Верно: 1, 3, 5. Раздельно: не доезжая (деепричастие), не тронутые морозом (причастие с зависимым словом), не готов (краткое прилагательное). Слитно: несчастья (существительное), немощёной (прилагательное без зависимых слов).',
+p:'Правописание НЕ с разными частями речи'},
+{k:'n',t:'Укажите цифру(-ы), на месте которой(-ых) пишется НН.',o:['Своеобразие художестве(1)ого мира ра(2)их повестей Н. В. Гоголя связа(3)о с использованием фольклорных традиций: име(4)о в народных сказаниях, полуязыческих легендах и преданиях писатель нашёл темы и сюжеты для своих произведений.'],a:'124',d:'1, 2, 4',
+e:'Верно: 1, 2, 4 — художественного, ранних, именно. «Связано» — краткое причастие, в нём пишется одна Н.',
+p:'Н и НН в суффиксах прилагательных, причастий и наречий'}
+];
+var hints={n:'Введите номера цифрами: 1,2 · 1 2 · 12',l:'Введите букву ответа',t:'Введите ответ. Разделители (запятая, пробел) не важны',m:'Напишите каждое слово целиком, с дефисом или пробелом, где нужно'};
+var LAT={a:'а',c:'с',e:'е',o:'о',p:'р',x:'х',y:'у',k:'к',m:'м',t:'т'};
+function esc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;')}
+function qhtml(q){return '<p class="qt">'+esc(q.t)+'</p>'+q.o.map(function(x){return '<div class="opt">'+esc(x)+'</div>'}).join('')}
+function render(){
+ var h='';
+ Q.forEach(function(q,i){
+  h+='<section class="q"><h2><span class="num">'+(i+1)+'</span></h2>'+qhtml(q);
+  var at=' autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" enterkeyhint="next"';
+  if(q.k==='m'){['а','б','в'].forEach(function(l,j){h+='<label class="f">'+l+') <input type="text" data-q="'+i+'" data-j="'+j+'"'+at+'></label>'})}
+  else h+='<label class="f"><input type="text" data-q="'+i+'"'+at+' placeholder="Ваш ответ"></label>';
+  h+='<p class="hint">'+hints[q.k]+'</p></section>';
+ });
+ document.getElementById('qs').innerHTML=h;
+ upd();
+}
+function vals(i){var el=document.querySelectorAll('input[data-q="'+i+'"]');return Q[i].k==='m'?[].map.call(el,function(x){return x.value}):el[0].value}
+function filled(i){var v=vals(i);return Array.isArray(v)?v.every(function(x){return x.trim()}):!!v.trim()}
+function upd(){var n=0;Q.forEach(function(q,i){if(filled(i))n++});document.getElementById('pt').textContent=n+' из '+Q.length;document.getElementById('pb').style.width=(n/Q.length*100)+'%'}
+function check(i){
+ var q=Q[i],v=vals(i),s;
+ if(q.k==='n'){s=v.replace(/\D/g,'').split('').sort().join('');return s===q.a}
+ if(q.k==='l'){s=v.toLowerCase().replace(/[abvg]/g,function(c){return {a:'а',b:'б',v:'в',g:'г'}[c]}).replace(/[^а-г]/g,'').split('').sort().join('');return s===q.a}
+ if(q.k==='t'){s=v.toLowerCase().replace(/[acepxykmt]/g,function(c){return LAT[c]}).replace(/[^а-яё]/g,'');return q.a.indexOf(s)>-1}
+ return v.every(function(x,j){return x.toLowerCase().trim().replace(/[–—−]/g,'-').replace(/\s+/g,' ')===q.a[j]})
+}
+function shown(i){var v=vals(i);if(Array.isArray(v)){return v.every(function(x){return !x.trim()})?'не заполнено':v.map(function(x,j){return 'абв'[j]+') '+(x.trim()||'—')}).join(', ')}return v.trim()||'не заполнено'}
+function finish(){
+ var ok=[],bad=[];
+ Q.forEach(function(q,i){(check(i)?ok:bad).push(i)});
+ var pc=Math.round(ok.length/Q.length*100);
+ var msg=pc>=90?'Отличный результат!':pc>=70?'Хороший результат. Осталось подтянуть несколько тем.':pc>=50?'Неплохо, но есть над чем поработать.':'Стоит повторить основные правила и пройти тест ещё раз.';
+ var h='<div class="score"><div class="pc">'+pc+'%</div><p>Верно выполнено заданий: <b>'+ok.length+' из '+Q.length+'</b></p><p>'+msg+'</p></div>';
+ h+='<h2 class="sec">Карта ответов</h2><div class="chips">';
+ Q.forEach(function(q,i){var g=ok.indexOf(i)>-1;h+=g?'<span class="chip ok">'+(i+1)+'</span>':'<a class="chip no" href="#r'+(i+1)+'">'+(i+1)+'</a>'});
+ h+='</div><p class="leg">Чёрные — верно, оранжевые — ошибка (нажмите, чтобы перейти к разбору).</p>';
+ if(bad.length){
+  h+='<h2 class="sec">Разбор ошибок</h2>';
+  var T={},order=[];
+  bad.forEach(function(i){var q=Q[i];
+   h+='<article class="bad" id="r'+(i+1)+'"><h3>Задание '+(i+1)+'</h3>'+qhtml(q)+'<p>Ваш ответ: <span class="me">'+esc(shown(i))+'</span></p><p>Верный ответ: <b>'+esc(q.d)+'</b></p><p class="cm">'+esc(q.e)+'</p><p class="tp">Что повторить:<br><span>'+esc(q.p)+'</span></p></article>';
+   if(!T[q.p]){T[q.p]=[];order.push(q.p)}T[q.p].push(i+1);
+  });
+  h+='<h2 class="sec">Какие темы разобрать ещё раз</h2><ul class="topics">';
+  order.forEach(function(p){h+='<li><b>'+esc(p)+'</b> — '+(T[p].length>1?'задания ':'задание ')+T[p].join(', ')+'</li>'});
+  h+='</ul>';
+ }else h+='<h2 class="sec">Ошибок нет</h2><p>Повторять нечего — все ответы верные.</p>';
+ h+='<button class="again" type="button" id="again">Пройти тест заново</button>';
+ var r=document.getElementById('res');r.innerHTML=h;r.hidden=false;
+ document.getElementById('quiz').hidden=true;window.scrollTo(0,0);
+ document.getElementById('again').onclick=function(){r.hidden=true;document.getElementById('quiz').hidden=false;render();window.scrollTo(0,0)};
+}
+document.getElementById('qs').addEventListener('input',upd);
+document.getElementById('qs').addEventListener('keydown',function(e){
+ if(e.key!=='Enter'||e.target.tagName!=='INPUT')return;
+ e.preventDefault();
+ var all=[].slice.call(document.querySelectorAll('#qs input')),k=all.indexOf(e.target);
+ if(k<all.length-1)all[k+1].focus();else e.target.blur();
+});
+var warned=false;
+document.getElementById('go').onclick=function(){
+ var n=Q.filter(function(q,i){return !filled(i)}).length;
+ var old=document.getElementById('note');if(old)old.remove();
+ if(n&&!warned){
+  warned=true;
+  var d=document.createElement('div');d.id='note';d.className='note';
+  d.textContent='Не заполнено заданий: '+n+'. Они будут засчитаны как неверные. Нажмите «Проверить ответы» ещё раз, чтобы завершить.';
+  this.insertAdjacentElement('afterend',d);
+  return;
+ }
+ warned=false;finish();
+};
+document.getElementById('qs').addEventListener('input',function(){warned=false;var o=document.getElementById('note');if(o)o.remove()});
+render();
+</script>
+</body>
+</html>
